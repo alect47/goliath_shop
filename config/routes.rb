@@ -66,6 +66,6 @@ Rails.application.routes.draw do
     get '/users', to: "users#index"
     patch '/merchants/:merchant_id', to: "merchants#toggle"
     get '/merchants/:merchant_id', to: "merchants#show"
+    get '/users/:user_id', to: "users#show"
   end
-  get '/admin/users/:user_id', to: "users#show"
 end
