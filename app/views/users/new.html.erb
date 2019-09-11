@@ -1,6 +1,4 @@
 
-<!-- < % # change to form_for %> -->
-
 <%= form_tag '/users', method: :post do %>
   <%= text_field_tag :name, @user.name, placeholder: "Name"%>
   <%= text_field_tag :address, @user.address, placeholder: "Address"%>
