@@ -6,6 +6,13 @@
 <br><%= @user.zip %>
 <br><%= @user.email %>
 </section>
+<section class="address-index">
+  <% @user.addresses.each do |address| %>
+    <p>Nickname: <%=address.nickname %></p>
+    <p>Address: <%=address.address%></p>
+    <p><%= address.city %><%= address.state %><%= address.zip %></p>
+  <% end %>
+</section>
   <section class="text">
   <br><% if !current_admin? %>
     <br><%= link_to 'Edit Profile', '/profile/edit' %>
