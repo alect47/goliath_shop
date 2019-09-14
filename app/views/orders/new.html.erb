@@ -27,16 +27,20 @@
     <%= text_field_tag :name, current_user.name %>
 
     <%= label_tag :address %>
-    <%= text_field_tag :address, current_user.address %>
+    <%= text_field_tag :address %>
+    <!-- < %= text_field_tag :address, current_user.address %> -->
 
     <%= label_tag :city %>
-    <%= text_field_tag :city, current_user.city %>
+    <%= text_field_tag :city %>
+    <!-- < %= text_field_tag :city, current_user.city %> -->
 
     <%= label_tag :state %>
-    <%= text_field_tag :state, current_user.state %>
+    <%= text_field_tag :state %>
+    <!-- < %= text_field_tag :state, current_user.state %> -->
 
     <%= label_tag :zip %>
-    <%= number_field_tag :zip, current_user.zip %>
+    <%= number_field_tag :zip %>
+    <!-- < %= number_field_tag :zip, current_user.zip %> -->
 
     <%= submit_tag 'Create Order' %>
   <% end %>
