@@ -2,13 +2,17 @@ require 'rails_helper'
 
 describe "As an Admin User" do
   before :each do
-    @admin = User.create(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80021, email: 'christopher@email.com', password: 'p@ssw0rd', role: 3)
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+    @admin_user = User.create!(  name: "chris",
+      email: "8@gmail.com",
+      password: "password",
+      role: 3
+    )
+    @admin_user_address = @admin_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin_user)
   end
 
   it "I see the same links as a regular user, a link to admin dashboard, and a link to show all users. I do not see a link to shopping cart." do
     visit '/'
-
     within 'nav' do
       expect(page).to have_link('All Merchants')
       expect(page).to have_link('All Items')
