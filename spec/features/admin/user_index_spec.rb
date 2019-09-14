@@ -2,14 +2,32 @@ require 'rails_helper'
 
 describe "As an Admin User" do
   before :each do
-    @admin = User.create(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80021, email: 'christopher@email.com', password: 'p@ssw0rd', role: 3)
-    @user_1 = User.create!(  name: "alec", address: "234 Main", city: "Denver", state: "CO", zip: 80204, email: "5@gmail.com", password: "password")
-    @user_2 = User.create!(  name: "josh", address: "234 Main", city: "Denver", state: "CO", zip: 80204, email: "6@gmail.com", password: "password", role: 1)
-    @user_3 = User.create!(  name: "josh", address: "234 Main", city: "Denver", state: "CO", zip: 80204, email: "7@gmail.com", password: "password", role: 1)
+    @admin_user = User.create!(  name: "chris",
+      email: "8@gmail.com",
+      password: "password",
+      role: 3
+    )
+    @admin_user_address = @admin_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+    @user_1 = User.create!(  name: "alec",
+      email: "5@gmail.com",
+      password: "password"
+    )
+    @user_1_address = @user_1.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+    @user_2 = User.create!(  name: "josh",
+      email: "6@gmail.com",
+      password: "password"
+    )
+    @user_2_address = @user_2.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+    @user_3 = User.create!(  name: "josh",
+      email: "7@gmail.com",
+      password: "password"
+    )
+    @user_3_address = @user_3.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
     visit '/login'
 
-    fill_in :email, with: @admin.email
-    fill_in :password, with: @admin.password
+    fill_in :email, with: @admin_user.email
+    fill_in :password, with: @admin_user.password
 
     click_button "Log In"
   end
@@ -50,10 +68,11 @@ describe "As an Admin User" do
   it "I can see user profile page" do
     visit("/admin/users/#{@user_3.id}")
     expect(page).to have_content(@user_3.name)
-    expect(page).to have_content(@user_3.address)
-    expect(page).to have_content(@user_3.city)
-    expect(page).to have_content(@user_3.state)
-    expect(page).to have_content(@user_3.zip)
+    expect(page).to have_content(@user_3.addresses.first.address)
+    expect(page).to have_content(@user_3.addresses.first.city)
+    expect(page).to have_content(@user_3.addresses.first.state)
+    expect(page).to have_content(@user_3.addresses.first.zip)
+    expect(page).to have_content(@user_3.addresses.first.nickname)
     expect(page).to have_content(@user_3.email)
     expect(page).to_not have_content(@user_3.password)
     expect(page).to_not have_link('Edit Profile')
