@@ -8,8 +8,6 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
   validates_presence_of :password_digest, require: true
-  validates_length_of :zip, :is => 5
-  validates_numericality_of :zip
 
   enum role: %w(regular_user merchant_employee merchant_admin admin )
 
