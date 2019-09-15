@@ -11,7 +11,8 @@ regular_user = User.create!(  name: "alec",
   email: "5@gmail.com",
   password: "password"
 )
-regular_user_address = regular_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+regular_user_address_1 = regular_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+regular_user_address_2 = regular_user.addresses.create!(nickname: 'Other Home', address: '456 Main st', city:'Denver', state:'CO', zip:80219)
 
 admin_user = User.create!(  name: "chris",
   email: "8@gmail.com",
@@ -40,6 +41,6 @@ merchant_admin_user = bike_shop.users.create!(  name: "Sam",
                     role: 2)
 merchant_admin_user_address = merchant_admin_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
 
-order_1 = regular_user.orders.create(name: "Sam Jackson", address: "223 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
+order_1 = regular_user.orders.create
 ItemOrder.create(order_id: order_1.id, item_id: tire.id, quantity: 2, price: 100, merchant_id: bike_shop.id)
 ItemOrder.create(order_id: order_1.id, item_id: pull_toy.id, quantity: 3, price: 10, merchant_id: dog_shop.id)
