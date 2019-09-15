@@ -32,7 +32,7 @@ describe("Order Creation") do
       click_on "Add To Cart"
 
       visit "/cart"
-      # binding.pry
+      binding.pry
       click_on "Checkout"
     end
 
