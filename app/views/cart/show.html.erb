@@ -56,4 +56,13 @@
   <h3 align= "center">Cart is currently empty</h3>
 <% end %>
 <table>
+
+  #This needs work, maybe do it as a link_to first and then change to buttons later?
+  <%= form_for @order do |f| %>
+    <% current_user.addresses.each do |address| %>
+      <%= f.radio_button :address_id, address.id %>
+      <%= f.radio_button :user_id, address.user_id %>
+      <%= f.label address.id %>
+    <% end %>
+  <% end %>
 </center>

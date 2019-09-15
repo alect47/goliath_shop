@@ -21,7 +21,7 @@ describe "As a mechant employee" do
     @user_address = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
     @order_1 = @user.orders.create!(address_id: @user_address.id)
     @order_2 = @user.orders.create!(address_id: @user_address.id)
-    binding.pry
+    # binding.pry
     @itemorder = ItemOrder.create(order_id: @order_1.id, item_id: @tire.id, quantity: 2, price: 100)
     ItemOrder.create(order_id: @order_1.id, item_id: @paper.id, quantity: 2, price: 20, merchant_id: @bike_shop.id)
     ItemOrder.create(order_id: @order_1.id, item_id: @pencil.id, quantity: 3, price: 2, merchant_id: @bike_shop.id)

@@ -1,10 +1,11 @@
 class OrdersController <ApplicationController
 
   def new
+    @user = current_user
   end
 
   def show
-    binding.pry
+    # binding.pry
     @order = Order.find(params[:order_id])
     @user = current_user
   end
