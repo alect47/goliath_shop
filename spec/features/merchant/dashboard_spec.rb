@@ -7,26 +7,21 @@ describe "As a mechant employee" do
     @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
     @paper = @bike_shop.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
     @pencil = @bike_shop.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
-    merchant_employee = User.create(  name: "alec",
-                        address: "234 Main",
-                        city: "Denver",
-                        state: "CO",
-                        zip: 80204,
-                        email: "alec@gmail.com",
+    @merchant_employee_user = @bike_shop.users.create!(  name: "alec",
+                        email: "6@gmail.com",
                         password: "password",
-                        role: 1,
-                        merchant_id: @bike_shop.id)
+                        role: 1)
+    @merchant_employee_user_address = @merchant_employee_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
 
-    @regular_user =  User.create!(  name: "alec",
-                    address: "234 Main",
-                    city: "Denver",
-                    state: "CO",
-                    zip: 80204,
-                    email: "5@gmail.com",
-                    password: "password"
-                  )
-    @order_1 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
-    @order_2 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
+
+    @user = User.create!(  name: "alec",
+      email: "5@gmail.com",
+      password: "password"
+    )
+    @user_address = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
+    @order_1 = @user.orders.create(name: "Sam Jackson",address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+    @order_2 = @user.orders.create(name: "Sam Jackson",address: '123 Main st', city:'Denver', state:'CO', zip:80219)
     @itemorder = ItemOrder.create(order_id: @order_1.id, item_id: @tire.id, quantity: 2, price: 100)
     ItemOrder.create(order_id: @order_1.id, item_id: @paper.id, quantity: 2, price: 20, merchant_id: @bike_shop.id)
     ItemOrder.create(order_id: @order_1.id, item_id: @pencil.id, quantity: 3, price: 2, merchant_id: @bike_shop.id)
@@ -35,8 +30,8 @@ describe "As a mechant employee" do
 
     visit '/login'
 
-    fill_in :email, with: merchant_employee.email
-    fill_in :password, with: merchant_employee.password
+    fill_in :email, with: @merchant_employee_user.email
+    fill_in :password, with: @merchant_employee_user.password
 
     click_button "Log In"
   end
@@ -67,8 +62,12 @@ describe "As a mechant employee" do
     visit '/merchant'
     click_link "#{@order_1.id}"
     expect(current_path).to eq("/merchant/orders/#{@order_1.id}")
-    expect(page).to have_content("#{@regular_user.name}")
-    expect(page).to have_content("#{@regular_user.address}")
+    expect(page).to have_content("#{@user.name}")
+    # expect(page).to have_content("#{@user.addresses.first.nickname}")
+    expect(page).to have_content("#{@user.addresses.first.address}")
+    expect(page).to have_content("#{@user.addresses.first.city}")
+    expect(page).to have_content("#{@user.addresses.first.state}")
+    expect(page).to have_content("#{@user.addresses.first.zip}")
     expect(page).to have_content("#{@paper.name}")
     expect(page).to have_css("img[src*='#{@paper.image}']")
     expect(page).to have_content("#{@paper.price}")

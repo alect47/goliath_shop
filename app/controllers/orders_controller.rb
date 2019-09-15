@@ -4,6 +4,7 @@ class OrdersController <ApplicationController
   end
 
   def show
+    binding.pry
     @order = Order.find(params[:order_id])
     @user = current_user
   end
