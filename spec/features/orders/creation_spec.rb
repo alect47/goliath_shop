@@ -32,8 +32,12 @@ describe("Order Creation") do
       click_on "Add To Cart"
 
       visit "/cart"
-      binding.pry
-      click_on "Checkout"
+      # save_and_open_page
+      # binding.pry
+      # choose("#{@user_address.nickname}")
+      #this works for test, but I don't understand how
+      choose("order_address_id_#{@user_address.id}")
+      click_button "Create Order"
     end
 
     it 'I can create a new order' do
