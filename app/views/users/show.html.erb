@@ -5,8 +5,8 @@
 <section class="address-index">
   <% @user.addresses.each do |address| %>
     <p>Nickname: <%=address.nickname %></p>
-    <p>Address: <%=address.address%></p>
-    <p><%= address.city %><%= address.state %><%= address.zip %></p>
+    <p>Address: <%=address.address%>
+    <%= address.city %> <%= address.state %> <%= address.zip %> </p>
   <% end %>
 </section>
   <section class="text">

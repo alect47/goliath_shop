@@ -4,12 +4,13 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @address = @user.addresses.new
   end
 
   def create
-    binding.pry
     @user = User.create(user_params)
-    if @user.save
+    @address = @user.addresses.create!(address_params)
+    if @user.save && @address.save
       session[:user_id] = @user.id
       flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
       redirect_to "/profile"
@@ -52,6 +53,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def address_params
+    params.permit(:address, :city, :state, :zip)
   end
 
   def cur_user

@@ -33,11 +33,11 @@ describe 'User Registration' do
       expect(current_path).to eq("/profile")
       within ".address-index" do
         expect(page).to have_content("Address: #{address} #{city} #{state} #{zip}")
-        expect(page).to have_content("Nickname: home")
+        expect(page).to have_content("Nickname: Home")
       end
 
-      address = Addresses.last
-      expect(address.nickname).to eq("home")
+      address = Address.last
+      expect(address.nickname).to eq("Home")
       expect(address.city).to eq(city)
     end
   end
