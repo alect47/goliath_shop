@@ -69,7 +69,7 @@ describe 'User Registration' do
       city = "Denver"
       state = "CO"
       zip = 80214
-      email = "alec@gmail.com"
+      email = "5@gmail.com"
       password = "password"
       password_confirmation = "password"
 
@@ -85,7 +85,8 @@ describe 'User Registration' do
       click_button "Submit"
       expect(current_path).to eq("/users")
       expect(page).to have_content("Email has already been taken")
-      expect(user_1).to eq(User.last)
+      expect(user).to eq(User.last)
+      save_and_open_page
       expect(find_field(:name).value).to eq(name)
       expect(find_field(:address).value).to eq(address)
       expect(find_field(:city).value).to eq(city)
