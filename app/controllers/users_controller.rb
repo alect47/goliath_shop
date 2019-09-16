@@ -9,13 +9,21 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
-    @address = @user.addresses.create!(address_params)
-    if @user.save && @address.save
-      session[:user_id] = @user.id
-      flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
-      redirect_to "/profile"
+    # @address = Address.create(address_params)
+    if @user.save
+      @address = @user.addresses.create(address_params)
+      if @address.save
+        session[:user_id] = @user.id
+        flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
+        redirect_to "/profile"
+      end
     else
-      flash[:error] = @user.errors.full_messages.uniq.to_sentence
+      @address = Address.create(address_params)
+      # binding.pry
+      flash[:error] = (@user.errors.full_messages + @address.errors.full_messages).uniq.to_sentence
+      # flash[:error] = @user.errors.full_messages.uniq.to_sentence
+      # @address = @user.addresses.new
+      # flash[:error] = @address.errors.full_messages.uniq.to_sentence
       render :new
     end
   end
