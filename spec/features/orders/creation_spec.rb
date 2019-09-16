@@ -7,7 +7,8 @@ describe("Order Creation") do
         email: "5@gmail.com",
         password: "password"
       )
-      @user_address = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+      @user_address_1 = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+      @user_address_2 = @user.addresses.create!(nickname: 'Second Home', address: '456 Main st', city:'Denver', state:'CO', zip:80219)
 
       @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
@@ -35,7 +36,7 @@ describe("Order Creation") do
     end
 
     it 'I can create a new order' do
-      choose("order_address_id_#{@user_address.id}")
+      choose("order_address_id_#{@user_address_1.id}")
       click_button "Create Order"
 
       new_order = Order.last
@@ -45,10 +46,10 @@ describe("Order Creation") do
 
       within '.shipping-address' do
         expect(page).to have_content(@user.name)
-        expect(page).to have_content(@user_address.address)
-        expect(page).to have_content(@user_address.city)
-        expect(page).to have_content(@user_address.state)
-        expect(page).to have_content(@user_address.zip)
+        expect(page).to have_content(@user_address_1.address)
+        expect(page).to have_content(@user_address_1.city)
+        expect(page).to have_content(@user_address_1.state)
+        expect(page).to have_content(@user_address_1.zip)
       end
 
       within "#item-#{@paper.id}" do
