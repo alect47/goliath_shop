@@ -5,32 +5,22 @@ describe "When a user who is already logged in visits login page" do
     @bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 11234)
 
     @regular_user = User.create!(  name: "alec",
-      address: "234 Main",
-      city: "Denver",
-      state: "CO",
-      zip: 80204,
-      email: "1@gmail.com",
+      email: "5@gmail.com",
       password: "password"
     )
-    @merchant_user = User.create!(  name: "josh",
-      address: "234 Main",
-      city: "Denver",
-      state: "CO",
-      zip: 80204,
-      email: "2@gmail.com",
-      password: "password",
-      role: 1,
-      merchant_id: @bike_shop.id
-    )
+    @regular_user_address = @regular_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+    @merchant_user = @bike_shop.users.create!(  name: "alec",
+                        email: "6@gmail.com",
+                        password: "password",
+                        role: 1)
+    @merchant_user_address = @merchant_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
     @admin_user = User.create!(  name: "chris",
-      address: "234 Main",
-      city: "Denver",
-      state: "CO",
-      zip: 80204,
-      email: "3@gmail.com",
+      email: "8@gmail.com",
       password: "password",
       role: 3
     )
+    @admin_user_address = @admin_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
   end
 
   it "regular users are redirected to profile" do
