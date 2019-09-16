@@ -86,7 +86,6 @@ describe 'User Registration' do
       expect(current_path).to eq("/users")
       expect(page).to have_content("Email has already been taken")
       expect(user).to eq(User.last)
-      save_and_open_page
       expect(find_field(:name).value).to eq(name)
       expect(find_field(:address).value).to eq(address)
       expect(find_field(:city).value).to eq(city)

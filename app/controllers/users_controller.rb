@@ -19,11 +19,7 @@ class UsersController < ApplicationController
       end
     else
       @address = Address.create(address_params)
-      # binding.pry
       flash[:error] = (@user.errors.full_messages + @address.errors.full_messages).uniq.to_sentence
-      # flash[:error] = @user.errors.full_messages.uniq.to_sentence
-      # @address = @user.addresses.new
-      # flash[:error] = @address.errors.full_messages.uniq.to_sentence
       render :new
     end
   end
@@ -34,17 +30,21 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @address = @user.addresses.first
   end
 
   def password_edit
   end
 
   def update
+    # binding.pry
     @user.update(user_params)
+    @address = @user.addresses.first
+    @address.update(address_params)
     if user_params.include?(:password)
       redirect_to '/profile'
       flash[:success] = 'Your password has been updated'
-    elsif @user.save
+    elsif @user.save && @address.save
       redirect_to '/profile'
       flash[:success] = 'Your profile has been updated'
     else
