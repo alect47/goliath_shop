@@ -62,7 +62,9 @@
     <% current_user.addresses.each do |address| %>
       <%= f.radio_button :address_id, address.id %>
       <!-- < %= f.radio_button :user_id, address.user_id %> -->
-      <%= f.label address.nickname %>
+      <section class="clicky">
+        <%= f.label address.nickname %>
+      </section>
     <% end %>
     <%= f.submit %>
   <% end %>

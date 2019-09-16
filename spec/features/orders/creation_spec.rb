@@ -36,24 +36,24 @@ describe("Order Creation") do
       # binding.pry
       # choose("#{@user_address.nickname}")
       #this works for test, but I don't understand how
-      choose("order_address_id_#{@user_address.id}")
-      click_button "Create Order"
+      # choose("order_address_id_#{@user_address.id}")
+      # click_button "Create Order"
     end
 
     it 'I can create a new order' do
 
-      name = "Bert"
-      address = "123 Sesame St."
-      city = "NYC"
-      state = "New York"
-      zip = 10001
-
-      fill_in :name, with: name
-      fill_in :address, with: address
-      fill_in :city, with: city
-      fill_in :state, with: state
-      fill_in :zip, with: zip
-
+      # name = "Bert"
+      # address = "123 Sesame St."
+      # city = "NYC"
+      # state = "New York"
+      # zip = 10001
+      #
+      # fill_in :name, with: name
+      # fill_in :address, with: address
+      # fill_in :city, with: city
+      # fill_in :state, with: state
+      # fill_in :zip, with: zip
+      choose("order_address_id_#{@user_address.id}")
       click_button "Create Order"
 
       new_order = Order.last
@@ -62,11 +62,11 @@ describe("Order Creation") do
       visit "/orders/#{new_order.id}"
 
       within '.shipping-address' do
-        expect(page).to have_content(name)
-        expect(page).to have_content(address)
-        expect(page).to have_content(city)
-        expect(page).to have_content(state)
-        expect(page).to have_content(zip)
+        expect(page).to have_content(@user.name)
+        expect(page).to have_content(@user_address.address)
+        expect(page).to have_content(@user_address.city)
+        expect(page).to have_content(@user_address.state)
+        expect(page).to have_content(@user_address.zip)
       end
 
       within "#item-#{@paper.id}" do
@@ -100,25 +100,6 @@ describe("Order Creation") do
       within "#datecreated" do
         expect(page).to have_content(new_order.created_at)
       end
-    end
-
-    it 'i cant create order if info not filled out' do
-      name = ""
-      address = "123 Sesame St."
-      city = "NYC"
-      state = "New York"
-      zip = 10001
-
-      fill_in :name, with: name
-      fill_in :address, with: address
-      fill_in :city, with: city
-      fill_in :state, with: state
-      fill_in :zip, with: zip
-
-      click_button "Create Order"
-
-      expect(page).to have_content("Please complete address form to create an order.")
-      expect(page).to have_button("Create Order")
     end
   end
 end
