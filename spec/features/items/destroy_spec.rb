@@ -3,14 +3,11 @@ require 'rails_helper'
 RSpec.describe 'item delete', type: :feature do
   describe 'when I visit an item show page' do
     before :each do
-      @user = User.create(  name: "alec",
-        address: "234 Main",
-        city: "Denver",
-        state: "CO",
-        zip: 80204,
-        email: "alec@gmail.com",
+      @user = User.create!(  name: "alec",
+        email: "5@gmail.com",
         password: "password"
       )
+      @user_address = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
     end
     it 'I can delete an item' do
       bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)

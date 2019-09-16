@@ -1,10 +1,13 @@
 <section class="header">
-<br><%= @user.name %>
-<br><%= @user.address %>
-<br><%= @user.city %>
-<br><%= @user.state %>
-<br><%= @user.zip %>
-<br><%= @user.email %>
+  <br><%= @user.name %>
+  <br><%= @user.email %>
+</section>
+<section class="address-index">
+  <% @user.addresses.each do |address| %>
+    <p>Nickname: <%=address.nickname %></p>
+    <p>Address: <%=address.address%></p>
+    <p><%= address.city %><%= address.state %><%= address.zip %></p>
+  <% end %>
 </section>
   <section class="text">
   <br><% if !current_admin? %>

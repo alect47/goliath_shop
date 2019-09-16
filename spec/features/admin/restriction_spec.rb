@@ -2,10 +2,15 @@ require 'rails_helper'
 
 describe 'As an Admin' do
   before :each do
-    @admin = User.create!(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80021, email: 'christopher@email.com', password: 'p@ssw0rd', role: 3)
+    @admin_user = User.create!(  name: "chris",
+      email: "8@gmail.com",
+      password: "password",
+      role: 3
+    )
+    @admin_user_address = @admin_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
     visit '/login'
-    fill_in :email, with: @admin.email
-    fill_in :password, with: @admin.password
+    fill_in :email, with: @admin_user.email
+    fill_in :password, with: @admin_user.password
     click_button "Log In"
   end
 

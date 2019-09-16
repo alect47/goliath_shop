@@ -15,6 +15,8 @@ class CartController < ApplicationController
 
   def show
     @items = cart.items
+    @order = Order.new
+    # binding.pry
   end
 
   def empty
