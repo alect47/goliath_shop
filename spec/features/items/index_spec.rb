@@ -132,9 +132,9 @@ RSpec.describe "Items Index Page" do
     end
 
     it "I see quantity purchased statistics about the most and least popular active items "do
-      @order_1 = @user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
-      @order_2 = @user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
-      @order_3 = @user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
+      @order_1 = @user.orders.create(address_id: @user_address.id)
+      @order_2 = @user.orders.create(address_id: @user_address.id)
+      @order_3 = @user.orders.create(address_id: @user_address.id)
       @itemorder = ItemOrder.create(order_id: @order_1.id, item_id: @tire.id, quantity: 2, price: 100)
       @itemorder_2 = ItemOrder.create(order_id: @order_1.id, item_id: @paper.id, quantity: 1, price: 20)
       @itemorder_3 = ItemOrder.create(order_id: @order_1.id, item_id: @pink_helmet.id, quantity: 3, price: 51)
