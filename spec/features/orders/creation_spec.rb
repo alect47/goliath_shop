@@ -32,27 +32,9 @@ describe("Order Creation") do
       click_on "Add To Cart"
 
       visit "/cart"
-      # save_and_open_page
-      # binding.pry
-      # choose("#{@user_address.nickname}")
-      #this works for test, but I don't understand how
-      # choose("order_address_id_#{@user_address.id}")
-      # click_button "Create Order"
     end
 
     it 'I can create a new order' do
-
-      # name = "Bert"
-      # address = "123 Sesame St."
-      # city = "NYC"
-      # state = "New York"
-      # zip = 10001
-      #
-      # fill_in :name, with: name
-      # fill_in :address, with: address
-      # fill_in :city, with: city
-      # fill_in :state, with: state
-      # fill_in :zip, with: zip
       choose("order_address_id_#{@user_address.id}")
       click_button "Create Order"
 
