@@ -19,14 +19,20 @@ describe Item, type: :model do
 
   describe "instance methods" do
     before(:each) do
+      # @user = User.create!(  name: "alec",
+      #   address: "234 Main",
+      #   city: "Denver",
+      #   state: "CO",
+      #   zip: 80204,
+      #   email: "alec@gmail.com",
+      #   password: "password"
+      # )
       @user = User.create!(  name: "alec",
-        address: "234 Main",
-        city: "Denver",
-        state: "CO",
-        zip: 80204,
-        email: "alec@gmail.com",
+        email: "5@gmail.com",
         password: "password"
       )
+      @user_address_1 = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
       @bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @chain = @bike_shop.items.create(name: "Chain", description: "It'll never break!", price: 50, image: "https://www.rei.com/media/b61d1379-ec0e-4760-9247-57ef971af0ad?size=784x588", inventory: 5)
 
@@ -51,7 +57,7 @@ describe Item, type: :model do
 
     it 'no orders' do
       expect(@chain.no_orders?).to eq(true)
-      order = @user.orders.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order = @user.orders.create(address_id: @user_address_1.id)
       order.item_orders.create(item: @chain, price: @chain.price, quantity: 2)
       expect(@chain.no_orders?).to eq(false)
     end
@@ -89,18 +95,24 @@ describe Item, type: :model do
       @pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
       @pink_helmet = @meg.items.create(name: "Pink Helmet", description: "Very pink helmet!", price: 51, image: "https://images-na.ssl-images-amazon.com/images/I/716FdxJKkjL._SX425_.jpg", inventory: 12)
       @dog_bone = @brian.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
-      @regular_user =  User.create!(  name: "alec",
-                      address: "234 Main",
-                      city: "Denver",
-                      state: "CO",
-                      zip: 80204,
-                      email: "5@gmail.com",
-                      password: "password"
-                    )
-      @order_1 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
-      @order_2 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
-      @order_3 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
-      @itemorder = ItemOrder.create(order_id: @order_1.id, item_id: @tire.id, quantity: 2, price: 100)
+      # @regular_user =  User.create!(  name: "alec",
+      #                 address: "234 Main",
+      #                 city: "Denver",
+      #                 state: "CO",
+      #                 zip: 80204,
+      #                 email: "5@gmail.com",
+      #                 password: "password"
+      #               )
+      @regular_user = User.create!(  name: "alec",
+        email: "5@gmail.com",
+        password: "password"
+      )
+      @regular_user_address_1 = @regular_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
+      @order_1 = @regular_user.orders.create!(address_id: @regular_user_address_1.id)
+      @order_2 = @regular_user.orders.create!(address_id: @regular_user_address_1.id)
+      @order_3 = @regular_user.orders.create!(address_id: @regular_user_address_1.id)
+      @itemorder = ItemOrder.create!(order_id: @order_1.id, item_id: @tire.id, quantity: 2, price: 100)
       @itemorder_2 = ItemOrder.create(order_id: @order_1.id, item_id: @paper.id, quantity: 1, price: 20)
       @itemorder_3 = ItemOrder.create(order_id: @order_1.id, item_id: @pink_helmet.id, quantity: 3, price: 51)
       @itemorder_4 = ItemOrder.create(order_id: @order_2.id, item_id: @pull_toy.id, quantity: 4, price: 10)
