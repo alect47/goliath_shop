@@ -4,11 +4,15 @@ class AddressesController < ApplicationController
     @address = Address.new
   end
 
-  def create
-    user = User.find(session[:user_id])
-    address = user.addresses.create(address_params)
+  # def create
+  #   user = User.find(session[:user_id])
+  #   address = user.addresses.create(address_params)
+  #
+  #   # @address = Address.create!(address_params)
+  # end
 
-    # @address = Address.create!(address_params)
+  def edit
+    @address = Address.find(params[:address_id])
   end
 
   def create
