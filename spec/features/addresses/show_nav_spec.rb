@@ -91,7 +91,36 @@ describe "User Profile Addresses" do
       click_button 'Submit'
       expect(current_path).to eq("/profile/addresses/#{@user_address.id}")
       expect(page).to have_content("Nickname can't be blank, Address can't be blank, City can't be blank, State can't be blank, Zip can't be blank, Zip is the wrong length")
+    end
 
+    it 'They can create new address' do
+      visit '/profile'
+      click_link "New Address"
+
+      expect(current_path).to eq("/profile/addresses/new")
+
+      nickname = 'Gus'
+      address = '123 kitkat ln'
+      city = 'Murder'
+      state = 'CO'
+      zip = 80233
+
+      fill_in "Nickname", with: nickname
+      fill_in "Address", with: address
+      fill_in "City", with: city
+      fill_in "State", with: state
+      fill_in "Zip", with: zip
+      click_button 'Submit'
+
+      expect(current_path).to eq("/profile")
+      new_address = Address.last
+      within "#address-#{new_address.id}" do
+        expect(page).to have_content(nickname)
+        expect(page).to have_content(address)
+        expect(page).to have_content(city)
+        expect(page).to have_content(state)
+        expect(page).to have_content(zip)
+      end
     end
   end
 end

@@ -1,5 +1,5 @@
 
-<%= form_for @address, :url => update_address_url do |f| %>
+<%= form_for @address, :url => update_address_path do |f| %>
   <%= f.text_field :nickname, placeholder: "Nickname"%>
   <%= f.text_field :address, placeholder: "Address"%>
   <%= f.text_field :city, placeholder: "City"%>

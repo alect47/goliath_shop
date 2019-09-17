@@ -24,21 +24,12 @@ class AddressesController < ApplicationController
 
   def create
     user = User.find(session[:user_id])
-    order = user.orders.create(order_params)
-    if order.save
-      cart.items.each do |item,quantity|
-        order.item_orders.create({
-          item: item,
-          quantity: quantity,
-          price: item.price,
-          merchant_id: item.merchant_id
-          })
-      end
-      session.delete(:cart)
-      flash[:success] = "Order Created!"
-      redirect_to "/profile/orders"
+    @address = user.addresses.create(address_params)
+    if @address.save
+      flash[:success] = "New Address Added"
+      redirect_to "/profile"
     else
-      flash[:notice] = "Please complete address form to create an order."
+      flash[:error] = @address.errors.full_messages.uniq.to_sentence
       render :new
     end
   end
