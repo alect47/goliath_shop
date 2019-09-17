@@ -5,7 +5,7 @@ class Order <ApplicationRecord
   validates_presence_of :status
   belongs_to :user
   belongs_to :address
-  has_many :item_orders
+  has_many :item_orders, dependent: :destroy
   has_many :items, through: :item_orders
 
   enum status: %w(pending packaged shipped cancelled)

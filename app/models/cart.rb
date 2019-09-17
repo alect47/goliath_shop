@@ -51,4 +51,5 @@ class Cart
   def quantity_zero?(item_id)
     @contents[item_id] == 0
   end
+
 end

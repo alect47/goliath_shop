@@ -1,7 +1,7 @@
 class Address < ApplicationRecord
 
   belongs_to :user
-  has_many :orders
+  has_many :orders, dependent: :destroy
 
   validates :nickname, presence: true
   validates :address, presence: true
@@ -11,4 +11,8 @@ class Address < ApplicationRecord
   validates_length_of :zip, :is => 5
   validates_numericality_of :zip
 
+  def no_shipped_orders?
+    # binding.pry
+    orders.where(status: "shipped").empty?
+  end
 end

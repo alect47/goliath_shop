@@ -7,9 +7,9 @@
   <section id="address-<%=address.id%>">
     <p>Nickname: <%=address.nickname %></p>
     <p>Address: <%=address.address%>
-      <%= address.city %> <%= address.state %> <%= address.zip %> </p>
+      <%= address.city %> <%= address.state %> <%= address.zip %>
       <%= link_to "Edit", "/profile/addresses/#{address.id}/edit" %>
-      <%= link_to "Delete", "/profile/addresses/#{address.id}", method: :delete %>
+      <%= link_to "Delete", "/profile/addresses/#{address.id}", method: :delete %></p>
   </section>
   <% end %>
   <%= link_to "New Address", "/profile/addresses/new" %>
