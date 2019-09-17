@@ -88,7 +88,6 @@ describe "User Profile Addresses" do
       fill_in "City", with: ""
       fill_in "State", with: ""
       fill_in "Zip", with: ""
-      # save_and_open_page
       click_button 'Submit'
       expect(current_path).to eq("/profile/addresses/#{@user_address.id}")
       expect(page).to have_content("Nickname can't be blank, Address can't be blank, City can't be blank, State can't be blank, Zip can't be blank, Zip is the wrong length")
