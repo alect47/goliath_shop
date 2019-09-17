@@ -7,7 +7,7 @@ describe "User Profile Addresses" do
         email: "5@gmail.com",
         password: "password"
       )
-      @user_address = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+      @user_address = @user.addresses.create!(address: '123 Main st', city:'Zion', state:'UT', zip:80204)
       @user_address_2 = @user.addresses.create!(address: '423 Main st', city:'Denver', state:'CO', zip:80219)
 
       visit '/login'
@@ -145,6 +145,19 @@ describe "User Profile Addresses" do
 
       expect(current_path).to eq("/profile/addresses")
       expect(page).to have_content("Nickname can't be blank, Address can't be blank, City can't be blank, State can't be blank, Zip can't be blank, Zip is the wrong length (should be 5 characters), and Zip is not a number")
+    end
+
+    it 'user can delete address' do
+      visit '/profile'
+      within "#address-#{@user_address.id}" do
+        click_link "Delete"
+      end
+
+      expect(current_path).to eq("/profile")
+      expect(page).to_not have_content(@user_address.address)
+      expect(page).to_not have_content(@user_address.city)
+      expect(page).to_not have_content(@user_address.state)
+      expect(page).to_not have_content(@user_address.zip)
     end
   end
 end
