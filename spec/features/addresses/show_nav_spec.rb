@@ -123,5 +123,28 @@ describe "User Profile Addresses" do
         expect(page).to have_content(zip)
       end
     end
+
+    it 'They must fill out entire new address form' do
+      visit '/profile'
+      click_link "New Address"
+
+      expect(current_path).to eq("/profile/addresses/new")
+
+      nickname = ''
+      address = ''
+      city = ''
+      state = ''
+      zip = nil
+
+      fill_in "Nickname", with: nickname
+      fill_in "Address", with: address
+      fill_in "City", with: city
+      fill_in "State", with: state
+      fill_in "Zip", with: zip
+      click_button 'Submit'
+
+      expect(current_path).to eq("/profile/addresses")
+      expect(page).to have_content("Nickname can't be blank, Address can't be blank, City can't be blank, State can't be blank, Zip can't be blank, Zip is the wrong length (should be 5 characters), and Zip is not a number")
+    end
   end
 end
