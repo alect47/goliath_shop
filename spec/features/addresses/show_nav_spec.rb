@@ -114,6 +114,7 @@ describe "User Profile Addresses" do
 
       expect(current_path).to eq("/profile")
       new_address = Address.last
+      expect(page).to have_content("New Address Added")
       within "#address-#{new_address.id}" do
         expect(page).to have_content(nickname)
         expect(page).to have_content(address)
