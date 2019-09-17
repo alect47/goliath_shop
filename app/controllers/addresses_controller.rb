@@ -4,30 +4,23 @@ class AddressesController < ApplicationController
     @address = Address.new
   end
 
-  # def create
-  #   user = User.find(session[:user_id])
-  #   address = user.addresses.create(address_params)
-  #
-  #   # @address = Address.create!(address_params)
-  # end
-
   def edit
     @address = Address.find(params[:address_id])
   end
 
   def update
-    address = Address.find(params[:address_id])
-    address.update(address_params)
-    if address.save
+    @address = Address.find(params[:address_id])
+    @address.update(address_params)
+    if @address.save
       redirect_to "/profile"
     else
-      @address = Address.create(address_params)
       flash[:error] = @address.errors.full_messages.uniq.to_sentence
       render :edit
-      # flash[:error] = address.errors.full_messages.to_sentence
-      # render :edit
     end
   end
+
+
+  #why do i have an order in here?
 
   def create
     user = User.find(session[:user_id])
@@ -54,7 +47,7 @@ class AddressesController < ApplicationController
   private
 
   def address_params
-    params.permit(:nickname, :address, :city, :state, :zip)
+    params.require(:address).permit(:nickname, :address, :city, :state, :zip)
   end
 
 end

@@ -41,11 +41,11 @@ describe "User Profile Addresses" do
         click_link "Edit"
       end
       expect(current_path).to eq("/profile/addresses/#{@user_address.id}/edit")
-      expect(find_field(:nickname).value).to eq(@user_address.nickname)
-      expect(find_field(:address).value).to eq(@user_address.address)
-      expect(find_field(:city).value).to eq(@user_address.city)
-      expect(find_field(:state).value).to eq(@user_address.state)
-      expect(find_field(:zip).value).to eq(@user_address.zip.to_s)
+      expect(find_field("Nickname").value).to eq(@user_address.nickname)
+      expect(find_field("Address").value).to eq(@user_address.address)
+      expect(find_field("City").value).to eq(@user_address.city)
+      expect(find_field("State").value).to eq(@user_address.state)
+      expect(find_field("Zip").value).to eq(@user_address.zip.to_s)
 
       nickname = 'Christopher'
       address = '456 1st St'
@@ -59,15 +59,40 @@ describe "User Profile Addresses" do
       fill_in "State", with: state
       fill_in "Zip", with: zip
       click_button 'Submit'
-
       expect(current_path).to eq('/profile')
       within "#address-#{@user_address.id}" do
         expect(page).to have_content(nickname)
+        expect(page).to_not have_content(@user_address.address)
         expect(page).to have_content(address)
         expect(page).to have_content(city)
         expect(page).to have_content(state)
         expect(page).to have_content(zip)
       end
+    end
+
+    it 'they must fill out entire form' do
+      visit '/profile'
+
+      within "#address-#{@user_address.id}" do
+        click_link "Edit"
+      end
+      expect(current_path).to eq("/profile/addresses/#{@user_address.id}/edit")
+      nickname = 'Christopher'
+      address = '456 1st St'
+      city = 'Northglenn'
+      state = 'CO'
+      zip = 80233
+
+      fill_in "Nickname", with: ""
+      fill_in "Address", with: ""
+      fill_in "City", with: ""
+      fill_in "State", with: ""
+      fill_in "Zip", with: ""
+      # save_and_open_page
+      click_button 'Submit'
+      expect(current_path).to eq("/profile/addresses/#{@user_address.id}")
+      expect(page).to have_content("Nickname can't be blank, Address can't be blank, City can't be blank, State can't be blank, Zip can't be blank, Zip is the wrong length")
+
     end
   end
 end

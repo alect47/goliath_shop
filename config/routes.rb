@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   patch '/profile', to: 'users#update'
   get '/profile/addresses/:address_id/edit', to: 'addresses#edit'
   get '/profile/addresses/new', to: 'addresses#new'
-  patch '/profile/addresses/:address_id', to: 'addresses#update'
+  patch '/profile/addresses/:address_id', to: 'addresses#update', as: :update_address
 
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
