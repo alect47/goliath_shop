@@ -2,14 +2,12 @@ require 'rails_helper'
 
 describe "when regular user visits cart" do
   before :each do
-    @regular_user = User.create!(  name: "alec",
-      address: "234 Main",
-      city: "Denver",
-      state: "CO",
-      zip: 80204,
+    @user = User.create!(  name: "alec",
       email: "5@gmail.com",
       password: "password"
     )
+    @user_address = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
     @meg = Merchant.create!(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
     @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
     @tire = @meg.items.create!(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
@@ -24,8 +22,8 @@ describe "when regular user visits cart" do
     visit "/items/#{@pencil.id}"
     click_on "Add To Cart"
     visit '/login'
-    fill_in :email, with: @regular_user.email
-    fill_in :password, with: @regular_user.password
+    fill_in :email, with: @user.email
+    fill_in :password, with: @user.password
     click_button "Log In"
   end
 
@@ -34,12 +32,7 @@ describe "when regular user visits cart" do
     expect(page).to_not have_link("My Orders")
 
     visit cart_path
-    click_link "Checkout"
-    fill_in :name, with: @regular_user.name
-    fill_in :address, with: @regular_user.address
-    fill_in :city, with: @regular_user.city
-    fill_in :state, with: @regular_user.state
-    fill_in :zip, with: @regular_user.zip
+    choose("order_address_id_#{@user_address.id}")
     click_button "Create Order"
 
     order_1 = Order.last
@@ -55,9 +48,9 @@ describe "when regular user visits cart" do
 
   end
   it "I cannot cancel my orders if status is shipped" do
-    @order_2 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 1)
+    @order_2 = @user.orders.create(address_id: @user_address.id, status: 1)
     @itemorder_4 = ItemOrder.create(order_id: @order_2.id, item_id: @tire.id, quantity: 1, price: 100, status: 1)
-    @order_3 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 2)
+    @order_3 = @user.orders.create(address_id: @user_address.id, status: 2)
     @itemorder_6 = ItemOrder.create(order_id: @order_3.id, item_id: @pencil.id, quantity: 100, price: 2, status: 1)
 
     visit "/profile/orders/#{@order_3.id}"

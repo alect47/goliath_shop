@@ -9,13 +9,17 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
-    @address = @user.addresses.create!(address_params)
-    if @user.save && @address.save
-      session[:user_id] = @user.id
-      flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
-      redirect_to "/profile"
+    # @address = Address.create(address_params)
+    if @user.save
+      @address = @user.addresses.create(address_params)
+      if @address.save
+        session[:user_id] = @user.id
+        flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
+        redirect_to "/profile"
+      end
     else
-      flash[:error] = @user.errors.full_messages.uniq.to_sentence
+      @address = Address.create(address_params)
+      flash[:error] = (@user.errors.full_messages + @address.errors.full_messages).uniq.to_sentence
       render :new
     end
   end
@@ -26,17 +30,21 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @address = @user.addresses.first
   end
 
   def password_edit
   end
 
   def update
+    # binding.pry
     @user.update(user_params)
+    @address = @user.addresses.first
+    @address.update(address_params)
     if user_params.include?(:password)
       redirect_to '/profile'
       flash[:success] = 'Your password has been updated'
-    elsif @user.save
+    elsif @user.save && @address.save
       redirect_to '/profile'
       flash[:success] = 'Your profile has been updated'
     else

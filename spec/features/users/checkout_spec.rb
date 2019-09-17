@@ -29,14 +29,8 @@ describe "when regular user visits cart" do
   it "they can checkout and and order is created associated with user" do
 
     visit cart_path
-    click_link "Checkout"
 
-    fill_in :name, with: @regular_user.name
-    fill_in :address, with: @regular_user.address
-    fill_in :city, with: @regular_user.city
-    fill_in :state, with: @regular_user.state
-    fill_in :zip, with: @regular_user.zip
-
+    choose("order_address_id_#{@regular_user_address.id}")
     click_button "Create Order"
 
     expect(current_path).to eq("/profile/orders")

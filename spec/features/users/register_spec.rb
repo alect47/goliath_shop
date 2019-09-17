@@ -40,9 +40,8 @@ describe 'User Registration' do
 
       visit '/register'
 
-
       click_button "Submit"
-
+      # save_and_open_page
       expect(page).to have_content("Name can't be blank")
       expect(page).to have_content("City can't be blank")
       expect(page).to have_content("State can't be blank")
@@ -57,14 +56,12 @@ describe 'User Registration' do
 
     it 'they have to use unique email address' do
 
-      user_1 = User.create(  name: "alec",
-        address: "234 Main",
-        city: "Denver",
-        state: "CO",
-        zip: 80204,
-        email: "alec@gmail.com",
+      user = User.create!(  name: "alec",
+        email: "5@gmail.com",
         password: "password"
       )
+      user_address = user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
 
       visit '/register'
       name = "luke"
@@ -72,7 +69,7 @@ describe 'User Registration' do
       city = "Denver"
       state = "CO"
       zip = 80214
-      email = "alec@gmail.com"
+      email = "5@gmail.com"
       password = "password"
       password_confirmation = "password"
 
@@ -88,7 +85,7 @@ describe 'User Registration' do
       click_button "Submit"
       expect(current_path).to eq("/users")
       expect(page).to have_content("Email has already been taken")
-      expect(user_1).to eq(User.last)
+      expect(user).to eq(User.last)
       expect(find_field(:name).value).to eq(name)
       expect(find_field(:address).value).to eq(address)
       expect(find_field(:city).value).to eq(city)

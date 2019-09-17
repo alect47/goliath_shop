@@ -2,14 +2,12 @@ require 'rails_helper'
 
 describe "when regular user visits cart" do
   before :each do
-    @regular_user = User.create!(  name: "alec",
-      address: "234 Main",
-      city: "Denver",
-      state: "CO",
-      zip: 80204,
+    @user = User.create!(  name: "alec",
       email: "5@gmail.com",
       password: "password"
     )
+    @user_address = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
     @meg = Merchant.create!(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
     @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
     @tire = @meg.items.create!(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
@@ -24,8 +22,8 @@ describe "when regular user visits cart" do
     visit "/items/#{@pencil.id}"
     click_on "Add To Cart"
     visit '/login'
-    fill_in :email, with: @regular_user.email
-    fill_in :password, with: @regular_user.password
+    fill_in :email, with: @user.email
+    fill_in :password, with: @user.password
     click_button "Log In"
   end
 
@@ -35,12 +33,8 @@ describe "when regular user visits cart" do
     expect(page).to_not have_link("My Orders")
 
     visit cart_path
-    click_link "Checkout"
-    fill_in :name, with: @regular_user.name
-    fill_in :address, with: @regular_user.address
-    fill_in :city, with: @regular_user.city
-    fill_in :state, with: @regular_user.state
-    fill_in :zip, with: @regular_user.zip
+
+    choose("order_address_id_#{@user_address.id}")
     click_button "Create Order"
 
     visit '/profile'
@@ -55,12 +49,7 @@ describe "when regular user visits cart" do
 
   it "user sees all order info on profile orders page" do
     visit cart_path
-    click_link "Checkout"
-    fill_in :name, with: @regular_user.name
-    fill_in :address, with: @regular_user.address
-    fill_in :city, with: @regular_user.city
-    fill_in :state, with: @regular_user.state
-    fill_in :zip, with: @regular_user.zip
+    choose("order_address_id_#{@user_address.id}")
     click_button "Create Order"
 
     order = Order.last
@@ -79,12 +68,7 @@ describe "when regular user visits cart" do
 
   it "when user visits order show page they see info about that order" do
     visit cart_path
-    click_link "Checkout"
-    fill_in :name, with: @regular_user.name
-    fill_in :address, with: @regular_user.address
-    fill_in :city, with: @regular_user.city
-    fill_in :state, with: @regular_user.state
-    fill_in :zip, with: @regular_user.zip
+    choose("order_address_id_#{@user_address.id}")
     click_button "Create Order"
 
     order = Order.last

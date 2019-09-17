@@ -3,19 +3,28 @@ require 'rails_helper'
 RSpec.describe "User Profile" do
   describe "As a registered user" do
     before :each do
-      @user = User.create(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80021, email: 'christopher@email.com', password: 'p@ssw0rd', role: 0)
+      @user = User.create!(  name: "alec",
+        email: "5@gmail.com",
+        password: "password"
+      )
+      @user_address = @user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-      @user_2 = User.create(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80021, email: 'ck@email.com', password: 'p@ssw0rd', role: 0)
+      @user_2 = User.create!(  name: "al",
+        email: "6@gmail.com",
+        password: "password"
+      )
+      @user_2_address = @user_2.addresses.create!(address: '1234 Main st', city:'Denver', state:'CO', zip:80219)
+
     end
 
     it 'I visit my profile page and see all my profile data except my password. I see a link to edit my profile data.' do
       visit '/profile'
 
       expect(page).to have_content(@user.name)
-      expect(page).to have_content(@user.address)
-      expect(page).to have_content(@user.city)
-      expect(page).to have_content(@user.state)
-      expect(page).to have_content(@user.zip)
+      expect(page).to have_content(@user_address.address)
+      expect(page).to have_content(@user_address.city)
+      expect(page).to have_content(@user_address.state)
+      expect(page).to have_content(@user_address.zip)
       expect(page).to have_content(@user.email)
       expect(page).to_not have_content(@user.password)
       expect(page).to have_link('Edit Profile')
@@ -27,10 +36,10 @@ RSpec.describe "User Profile" do
       expect(current_path).to eq('/profile/edit')
 
       expect(find_field(:name).value).to eq(@user.name)
-      expect(find_field(:address).value).to eq(@user.address)
-      expect(find_field(:city).value).to eq(@user.city)
-      expect(find_field(:state).value).to eq(@user.state)
-      expect(find_field(:zip).value).to eq(@user.zip.to_s)
+      expect(find_field(:address).value).to eq(@user_address.address)
+      expect(find_field(:city).value).to eq(@user_address.city)
+      expect(find_field(:state).value).to eq(@user_address.state)
+      expect(find_field(:zip).value).to eq(@user_address.zip.to_s)
       expect(find_field(:email).value).to eq(@user.email)
 
       name = 'Christopher'
@@ -80,9 +89,7 @@ RSpec.describe "User Profile" do
     it 'I must use a unique email address when updating my profile' do
       visit '/profile/edit'
 
-      email = 'ck@email.com'
-
-      fill_in "Email", with: email
+      fill_in "Email", with: @user_2.email
       click_button 'Update Profile'
 
       expect(current_path).to eq('/profile/edit')
