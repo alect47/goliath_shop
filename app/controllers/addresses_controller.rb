@@ -35,9 +35,13 @@ class AddressesController < ApplicationController
   end
 
   def delete
-    address = Address.find(params[:address_id])
-    address.destroy
-    flash[:success] = "Address has been deleted"
+    @address = Address.find(params[:address_id])
+    if @address.no_shipped_orders?
+      @address.destroy
+      flash[:success] = "Address has been deleted"
+    else
+      flash[:error] = "Sorry you can't delete this address as it is currently being use in an order"
+    end
     redirect_to '/profile'
   end
 

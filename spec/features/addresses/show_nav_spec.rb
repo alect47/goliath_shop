@@ -159,5 +159,15 @@ describe "User Profile Addresses" do
       expect(page).to_not have_content(@user_address.state)
       expect(page).to_not have_content(@user_address.zip)
     end
+
+    it "user can't delete address if used in shipped order" do
+      @order_4 = @user.orders.create!(address_id: @user_address.id, status: 2)
+
+      visit '/profile'
+      within "#address-#{@user_address.id}" do
+        click_link "Delete"
+      end
+      expect(page).to have_content("Sorry you can't delete this address as it is currently being use in an order")
+    end
   end
 end
