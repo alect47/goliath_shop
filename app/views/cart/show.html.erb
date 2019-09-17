@@ -59,7 +59,8 @@
 
   <!-- < %# This needs work, maybe do it as a link_to first and then change to buttons later? %> -->
 <% if !@items.empty? %>
-  <% if current_user %>
+<%# change this logic location %>
+  <% if current_user && !current_user.addresses.empty? %>
     <%= form_for @order do |f| %>
       <% current_user.addresses.each do |address| %>
         <%= f.radio_button :address_id, address.id %>
