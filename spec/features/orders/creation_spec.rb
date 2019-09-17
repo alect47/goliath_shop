@@ -36,6 +36,8 @@ describe("Order Creation") do
     end
 
     it 'I can create a new order' do
+      click_button "Create Order"
+      expect(page).to have_content("Please Select an Address")
       choose("order_address_id_#{@user_address_1.id}")
       click_button "Create Order"
 

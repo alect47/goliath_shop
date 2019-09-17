@@ -1,8 +1,8 @@
 class OrdersController <ApplicationController
 
-  def new
-    @user = current_user
-  end
+  # def new
+  #   @user = current_user
+  # end
 
   def show
     # binding.pry
@@ -15,26 +15,25 @@ class OrdersController <ApplicationController
   end
 
   def create
-    # binding.pry
-    user = current_user
-    # user = User.find(session[:user_id])
-    # order = user.orders.create!(address_id: user.address.id)
-    order = user.orders.create!(address_id: order_params[:address_id])
-    if order.save
-      cart.items.each do |item,quantity|
-        order.item_orders.create({
-          item: item,
-          quantity: quantity,
-          price: item.price,
-          merchant_id: item.merchant_id
-          })
-      end
-      session.delete(:cart)
-      flash[:success] = "Order Created!"
-      redirect_to "/profile/orders"
+    if !params[:order]
+      flash[:error] = "Please Select an Address"
+      redirect_to '/cart'
     else
-      flash[:notice] = "Please complete address form to create an order."
-      render :new
+      user = current_user
+      order = user.orders.create!(address_id: order_params[:address_id])
+      if order.save
+        cart.items.each do |item,quantity|
+          order.item_orders.create({
+            item: item,
+            quantity: quantity,
+            price: item.price,
+            merchant_id: item.merchant_id
+            })
+        end
+        session.delete(:cart)
+        flash[:success] = "Order Created!"
+        redirect_to "/profile/orders"
+      end
     end
   end
 
@@ -54,6 +53,7 @@ class OrdersController <ApplicationController
   private
 
   def order_params
+    # binding.pry
     params.require(:order).permit(:address_id)
   end
 end
