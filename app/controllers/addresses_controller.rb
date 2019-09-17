@@ -10,12 +10,17 @@ class AddressesController < ApplicationController
 
   def update
     @address = Address.find(params[:address_id])
-    @address.update(address_params)
-    if @address.save
-      redirect_to "/profile"
+    if @address.no_shipped_orders?
+      @address.update(address_params)
+      if @address.save
+        redirect_to "/profile"
+      else
+        flash[:error] = @address.errors.full_messages.uniq.to_sentence
+        render :edit
+      end
     else
-      flash[:error] = @address.errors.full_messages.uniq.to_sentence
-      render :edit
+      flash[:error] = "Sorry you can't edit this address as it is currently being use in an order"
+      redirect_to '/profile'
     end
   end
 
