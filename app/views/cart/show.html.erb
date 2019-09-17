@@ -59,7 +59,7 @@
 
   <!-- < %# This needs work, maybe do it as a link_to first and then change to buttons later? %> -->
 <% if !@items.empty? %>
-<%# change this logic location %>
+<!-- < %# change this logic location %> -->
   <% if current_user && !current_user.addresses.empty? %>
     <%= form_for @order do |f| %>
       <% current_user.addresses.each do |address| %>
@@ -71,6 +71,9 @@
       <% end %>
       <%= f.submit %>
     <% end %>
+    <% else %>
+    <p>You must have an <%= link_to "Address", profile_addresses_new_path%> to create order</p>
   <% end %>
+
 <% end %>
 </center>
