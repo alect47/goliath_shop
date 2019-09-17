@@ -30,6 +30,7 @@ describe Merchant, type: :model do
     it 'no_orders' do
       expect(@meg.no_orders?).to eq(true)
       order_1 = @user.orders.create!(address_id: @user_address.id)
+      # order_1 = @user.orders.create!(address_id: @user_address.id)
       # order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
       item_order_1 = order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
 
