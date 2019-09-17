@@ -82,6 +82,27 @@ describe "As a mechant admin" do
     expect(find_field('Inventory').value).to eq(inventory.to_s)
   end
 
+  it 'Item has default image' do
+    visit '/merchant/items/new'
+
+    name = 'H'
+    description = 'H'
+    image_url = "https://thumbs.dreamstime.com/b/coming-soon-neon-sign-brick-wall-background-87865865.jpg"
+    price = 25
+    inventory = 5
+
+    fill_in 'Name', with: name
+    fill_in 'Description', with: description
+    fill_in 'Image', with: "" 
+    fill_in 'Price', with: price
+    fill_in 'Inventory', with: inventory
+    click_button 'Create Item'
+
+    new_item = Item.last
+    expect(new_item.image).to eq(image_url)
+    expect(page).to have_css("img[src*='#{new_item.image}']")
+  end
+
   it 'I can edit an item. All the rules for creating an item apply.' do
     visit '/merchant/items'
 
