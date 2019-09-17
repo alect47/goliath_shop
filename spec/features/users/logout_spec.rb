@@ -18,14 +18,14 @@ describe "When a user logs out" do
     password = "password"
     password_confirmation = "password"
 
-    fill_in :name, with: name
-    fill_in :address, with: address
-    fill_in :city, with: city
-    fill_in :state, with: state
-    fill_in :zip, with: zip
-    fill_in :email, with: email
-    fill_in :password, with: password
-    fill_in :password_confirmation, with: password_confirmation
+    fill_in "Name", with: name
+    fill_in "Address", with: address
+    fill_in "City", with: city
+    fill_in "State", with: state
+    fill_in "Zip", with: zip
+    fill_in "Email", with: email
+    fill_in "Password", with: password
+    fill_in "Confirm Password", with: password_confirmation
 
     click_button "Submit"
 

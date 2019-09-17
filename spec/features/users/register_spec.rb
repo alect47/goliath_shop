@@ -21,16 +21,15 @@ describe 'User Registration' do
       password = "password"
       password_confirmation = "password"
 
-      fill_in :name, with: name
-      fill_in :address, with: address
-      fill_in :city, with: city
-      fill_in :state, with: state
-      fill_in :zip, with: zip
-      fill_in :email, with: email
-      fill_in :password, with: password
-      fill_in :password_confirmation, with: password_confirmation
-
-      click_button "Submit"
+      fill_in "Name", with: name
+      fill_in "Address", with: address
+      fill_in "City", with: city
+      fill_in "State", with: state
+      fill_in "Zip", with: zip
+      fill_in "Email", with: email
+      fill_in "Password", with: password
+      fill_in "Confirm Password", with: password_confirmation
+      click_button("Submit")
 
       expect(current_path).to eq("/profile")
       expect(page).to have_content("Welcome, #{name}")
@@ -64,36 +63,37 @@ describe 'User Registration' do
 
 
       visit '/register'
-      name = "luke"
-      address = "134 Main"
+
+      name = "alec"
+      address = "234 Main"
       city = "Denver"
       state = "CO"
-      zip = 80214
+      zip = 80204
       email = "5@gmail.com"
       password = "password"
       password_confirmation = "password"
 
-      fill_in :name, with: name
-      fill_in :address, with: address
-      fill_in :city, with: city
-      fill_in :state, with: state
-      fill_in :zip, with: zip
-      fill_in :email, with: email
-      fill_in :password, with: password
-      fill_in :password_confirmation, with: password_confirmation
+      fill_in "Name", with: name
+      fill_in "Address", with: address
+      fill_in "City", with: city
+      fill_in "State", with: state
+      fill_in "Zip", with: zip
+      fill_in "Email", with: email
+      fill_in "Password", with: password
+      fill_in "Confirm Password", with: password_confirmation
 
       click_button "Submit"
       expect(current_path).to eq("/users")
       expect(page).to have_content("Email has already been taken")
       expect(user).to eq(User.last)
-      expect(find_field(:name).value).to eq(name)
-      expect(find_field(:address).value).to eq(address)
-      expect(find_field(:city).value).to eq(city)
-      expect(find_field(:state).value).to eq(state)
-      expect(find_field(:zip).value).to eq(zip.to_s)
-      expect(find_field(:email).value).to eq(nil)
-      expect(find_field(:password).value).to eq(nil)
-      expect(find_field(:password_confirmation).value).to eq(nil)
+      expect(find_field("Name").value).to eq(name)
+      expect(find_field("Address").value).to eq(address)
+      expect(find_field("City").value).to eq(city)
+      expect(find_field("State").value).to eq(state)
+      expect(find_field("Zip").value).to eq(zip.to_s)
+      expect(find_field("Email").value).to eq(nil)
+      expect(find_field("Password").value).to eq(nil)
+      expect(find_field("Confirm Password").value).to eq(nil)
     end
   end
 end
