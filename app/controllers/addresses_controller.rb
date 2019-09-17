@@ -15,6 +15,20 @@ class AddressesController < ApplicationController
     @address = Address.find(params[:address_id])
   end
 
+  def update
+    address = Address.find(params[:address_id])
+    address.update(address_params)
+    if address.save
+      redirect_to "/profile"
+    else
+      @address = Address.create(address_params)
+      flash[:error] = @address.errors.full_messages.uniq.to_sentence
+      render :edit
+      # flash[:error] = address.errors.full_messages.to_sentence
+      # render :edit
+    end
+  end
+
   def create
     user = User.find(session[:user_id])
     order = user.orders.create(order_params)

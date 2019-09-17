@@ -4,25 +4,43 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @address = @user.addresses.new
+    1.times {@user.addresses.build}
+    # @address = @user.addresses.new
   end
 
   def create
-    @user = User.create(user_params)
+    @user = User.create(parent_params)
     # @address = Address.create(address_params)
     if @user.save
-      @address = @user.addresses.create(address_params)
-      if @address.save
+      # @address = @user.addresses.create(address_params)
+      # if @address.save
         session[:user_id] = @user.id
         flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
         redirect_to "/profile"
-      end
+      # end
     else
       @address = Address.create(address_params)
       flash[:error] = (@user.errors.full_messages + @address.errors.full_messages).uniq.to_sentence
       render :new
     end
   end
+
+  # def create
+  #   @user = User.create(parent_params)
+  #   # @address = Address.create(address_params)
+  #   if @user.save
+  #     # @address = @user.addresses.create(address_params)
+  #     # if @address.save
+  #       session[:user_id] = @user.id
+  #       flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
+  #       redirect_to "/profile"
+  #     # end
+  #   else
+  #     # @address = Address.create(address_params)
+  #     # flash[:error] = (@user.errors.full_messages + @address.errors.full_messages).uniq.to_sentence
+  #     render :new
+  #   end
+  # end
 
 
   def show
@@ -62,6 +80,10 @@ class UsersController < ApplicationController
   def user_params
     params.permit(:name, :email, :password, :password_confirmation)
   end
+
+  def parent_params
+   params.require(:user).permit(:name, :email, :password, :password_confirmation, addresses_attributes: [:address, :city, :state, :zip]) # This permits the kids params to be saved
+ end
 
   def address_params
     params.permit(:address, :city, :state, :zip)

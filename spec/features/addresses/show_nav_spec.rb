@@ -47,21 +47,27 @@ describe "User Profile Addresses" do
       expect(find_field(:state).value).to eq(@user_address.state)
       expect(find_field(:zip).value).to eq(@user_address.zip.to_s)
 
-      # name = 'Christopher'
-      # address = '456 1st St'
-      # city = 'Northglenn'
-      # state = 'CO'
-      # zip = 80233
-      # email = 'christopher@email.com'
-      #
-      # fill_in "Name", with: name
-      # fill_in "Email", with: email
-      # fill_in "Address", with: address
-      # fill_in "City", with: city
-      # fill_in "State", with: state
-      # fill_in "Zip", with: zip
-      # click_button 'Update Profile'
+      nickname = 'Christopher'
+      address = '456 1st St'
+      city = 'Northglenn'
+      state = 'CO'
+      zip = 80233
 
+      fill_in "Nickname", with: nickname
+      fill_in "Address", with: address
+      fill_in "City", with: city
+      fill_in "State", with: state
+      fill_in "Zip", with: zip
+      click_button 'Submit'
+
+      expect(current_path).to eq('/profile')
+      within "#address-#{@user_address.id}" do
+        expect(page).to have_content(nickname)
+        expect(page).to have_content(address)
+        expect(page).to have_content(city)
+        expect(page).to have_content(state)
+        expect(page).to have_content(zip)
+      end
     end
   end
 end
