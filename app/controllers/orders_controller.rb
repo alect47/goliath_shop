@@ -8,6 +8,8 @@ class OrdersController <ApplicationController
     # binding.pry
     @order = Order.find(params[:order_id])
     @user = current_user
+    address = @order.address.id
+    @unused_addresses = @order.unused_addresses(address)
   end
 
   def edit

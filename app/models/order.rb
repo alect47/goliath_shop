@@ -14,6 +14,10 @@ class Order <ApplicationRecord
     status == "pending"
   end
 
+  def unused_addresses(address)
+    user.addresses.where.not(id: address)
+  end
+
   def grandtotal
     item_orders.sum('price * quantity')
   end
