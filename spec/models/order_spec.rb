@@ -163,5 +163,28 @@ describe Order, type: :model do
       @itemorder_3 = ItemOrder.create(order_id: @order_1.id, item_id: @pink_helmet.id, quantity: 3, price: 51, merchant_id: @meg.id)
       expect(@order_1.show_order(@meg.id)).to eq([@itemorder_3])
     end
+
+    it 'pending_order' do
+      @regular_user = User.create!(  name: "alec",
+        email: "5@gmail.com",
+        password: "password"
+      )
+      @regular_user_address_1 = @regular_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
+      @order_1 = @regular_user.orders.create(address_id: @regular_user_address_1.id, status: 0)
+      expect(@order_1.pending_order?).to eq(true)
+    end
+
+    it 'unused_addresses' do
+      @regular_user = User.create!(  name: "alec",
+        email: "5@gmail.com",
+        password: "password"
+      )
+      @regular_user_address_1 = @regular_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+      @regular_user_address_2 = @regular_user.addresses.create!(address: '123 Main st', city:'Denver', state:'CO', zip:80219)
+
+      @order_1 = @regular_user.orders.create(address_id: @regular_user_address_1.id, status: 0)
+      expect(@order_1.unused_addresses(@regular_user_address_1.id)).to eq([@regular_user_address_2])
+    end
   end
 end

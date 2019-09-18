@@ -12,9 +12,9 @@ class OrdersController <ApplicationController
     @unused_addresses = @order.unused_addresses(address)
   end
 
-  def edit
-    @order = Order.find(params[:order_id])
-  end
+  # def edit
+  #   @order = Order.find(params[:order_id])
+  # end
 
   def index
     @user = current_user
