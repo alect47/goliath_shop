@@ -19,14 +19,6 @@ describe Item, type: :model do
 
   describe "instance methods" do
     before(:each) do
-      # @user = User.create!(  name: "alec",
-      #   address: "234 Main",
-      #   city: "Denver",
-      #   state: "CO",
-      #   zip: 80204,
-      #   email: "alec@gmail.com",
-      #   password: "password"
-      # )
       @user = User.create!(  name: "alec",
         email: "5@gmail.com",
         password: "password"
@@ -95,14 +87,6 @@ describe Item, type: :model do
       @pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
       @pink_helmet = @meg.items.create(name: "Pink Helmet", description: "Very pink helmet!", price: 51, image: "https://images-na.ssl-images-amazon.com/images/I/716FdxJKkjL._SX425_.jpg", inventory: 12)
       @dog_bone = @brian.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
-      # @regular_user =  User.create!(  name: "alec",
-      #                 address: "234 Main",
-      #                 city: "Denver",
-      #                 state: "CO",
-      #                 zip: 80204,
-      #                 email: "5@gmail.com",
-      #                 password: "password"
-      #               )
       @regular_user = User.create!(  name: "alec",
         email: "5@gmail.com",
         password: "password"

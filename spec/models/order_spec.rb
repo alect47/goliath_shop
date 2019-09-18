@@ -26,7 +26,6 @@ describe Order, type: :model do
       tire = meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
       pull_toy = brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
 
-      # order_1 = !user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
       order_1 = user.orders.create!(address_id: user_address_1.id)
 
       order_1.item_orders.create!(item: tire, price: tire.price, quantity: 2)
@@ -57,8 +56,6 @@ describe Order, type: :model do
       )
       user_address_2 = user_2.addresses.create!(nickname: 'Other Home', address: '456 Main st', city:'Denver', state:'CO', zip:80219)
 
-      # user_1 = User.create!(  name: "alec", address: "234 Main", city: "Denver", state: "CO", zip: 80204, email: "5@gmail.com", password: "password")
-      # user_2 = User.create!(  name: "josh", address: "234 Main", city: "Denver", state: "CO", zip: 80204, email: "6@gmail.com", password: "password")
       order_2 = user_2.orders.create!( address_id: user_address_1.id, status: 0)
       order_5 = user_2.orders.create!( address_id: user_address_1.id, status: 3)
       order_3 = user_2.orders.create!( address_id: user_address_1.id, status: 1)
@@ -70,14 +67,6 @@ describe Order, type: :model do
     end
 
     it 'packaged' do
-      # @regular_user =  User.create!(  name: "alec",
-      #                 address: "234 Main",
-      #                 city: "Denver",
-      #                 state: "CO",
-      #                 zip: 80204,
-      #                 email: "890@gmail.com",
-      #                 password: "password"
-      #               )
       @regular_user = User.create!(  name: "alec",
         email: "5@gmail.com",
         password: "password"
@@ -91,14 +80,6 @@ describe Order, type: :model do
     end
 
     it 'shipped' do
-      # @regular_user_2 =  User.create!(  name: "alec",
-      #                 address: "234 Main",
-      #                 city: "Denver",
-      #                 state: "CO",
-      #                 zip: 80204,
-      #                 email: "899@gmail.com",
-      #                 password: "password"
-      #               )
       @regular_user_2 = User.create!(  name: "alec",
         email: "5@gmail.com",
         password: "password"
@@ -112,14 +93,6 @@ describe Order, type: :model do
     end
 
     it 'checks if all item orders of an item are fulfilled' do
-      # @regular_user =  User.create!(  name: "alec",
-      #                 address: "234 Main",
-      #                 city: "Denver",
-      #                 state: "CO",
-      #                 zip: 80204,
-      #                 email: "890@gmail.com",
-      #                 password: "password"
-      #               )
       @regular_user = User.create!(  name: "alec",
         email: "5@gmail.com",
         password: "password"
@@ -128,7 +101,6 @@ describe Order, type: :model do
 
       @order_1 = @regular_user.orders.create(address_id: @regular_user_address_1.id, status: 0)
 
-      # @order_1 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
       @order_1.packaged
       expect(@order_1.all_item_orders_fulfilled?).to eq(true)
     end
@@ -144,15 +116,6 @@ describe Order, type: :model do
       @pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
       @pink_helmet = @meg.items.create(name: "Pink Helmet", description: "Very pink helmet!", price: 51, image: "https://images-na.ssl-images-amazon.com/images/I/716FdxJKkjL._SX425_.jpg", inventory: 12)
       @dog_bone = @brian.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
-      # @regular_user =  User.create!(  name: "alec",
-      #                 address: "234 Main",
-      #                 city: "Denver",
-      #                 state: "CO",
-      #                 zip: 80204,
-      #                 email: "5@gmail.com",
-      #                 password: "password"
-      #               )
-      # @order_1 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
       @regular_user = User.create!(  name: "alec",
         email: "5@gmail.com",
         password: "password"
