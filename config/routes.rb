@@ -9,10 +9,6 @@ Rails.application.routes.draw do
   get "/merchants/:merchant_id/items", to: "items#index"
   get "/merchants/:merchant_id/items/new", to: "items#new"
   post "/merchants/:merchant_id/items", to: "items#create"
-  # delete "/items/:id", to: "items#destroy"
-
-  # get "/items/:item_id/reviews/new", to: "reviews#new"
-  # post "/items/:item_id/reviews", to: "reviews#create"
 
   get "/reviews/:id/edit", to: "reviews#edit"
   patch "/reviews/:id", to: "reviews#update"
@@ -49,7 +45,6 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
-  # ,as: :user
   namespace :merchant do
     get '/', to: "dashboard#index"
     patch '/items/:item_id', to: "items#toggle"
