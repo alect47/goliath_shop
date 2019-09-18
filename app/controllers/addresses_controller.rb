@@ -1,15 +1,14 @@
 class AddressesController < ApplicationController
+  before_action :set_address, only: [:edit, :update, :delete]
 
   def new
     @address = Address.new
   end
 
   def edit
-    @address = Address.find(params[:address_id])
   end
 
   def update
-    @address = Address.find(params[:address_id])
     if @address.no_shipped_orders?
       @address.update(address_params)
       if @address.save
@@ -24,9 +23,6 @@ class AddressesController < ApplicationController
     end
   end
 
-
-  #why do i have an order in here?
-
   def create
     user = User.find(session[:user_id])
     @address = user.addresses.create(address_params)
@@ -40,7 +36,6 @@ class AddressesController < ApplicationController
   end
 
   def delete
-    @address = Address.find(params[:address_id])
     if @address.no_shipped_orders?
       @address.destroy
       flash[:success] = "Address has been deleted"
@@ -57,4 +52,7 @@ class AddressesController < ApplicationController
     params.require(:address).permit(:nickname, :address, :city, :state, :zip)
   end
 
+  def set_address
+    @address = Address.find(params[:address_id])
+  end
 end

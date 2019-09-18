@@ -5,5 +5,4 @@ class Merchant::OrdersController < Merchant::BaseController
     @order = Order.find(params[:order_id])
     @item_orders = @order.show_order(@merchant.id)
   end
-
 end

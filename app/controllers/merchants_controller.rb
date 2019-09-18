@@ -1,11 +1,11 @@
 class MerchantsController <ApplicationController
+  before_action :set_merchant, only: [:show, :update, :edit, :destroy]
 
   def index
     @merchants = Merchant.all
   end
 
   def show
-    @merchant = Merchant.find(params[:id])
   end
 
   def new
@@ -22,11 +22,9 @@ class MerchantsController <ApplicationController
   end
 
   def edit
-    @merchant = Merchant.find(params[:id])
   end
 
   def update
-    @merchant = Merchant.find(params[:id])
     @merchant.update(merchant_params)
     if @merchant.save
       redirect_to "/merchants/#{@merchant.id}"
@@ -37,7 +35,7 @@ class MerchantsController <ApplicationController
   end
 
   def destroy
-    Merchant.destroy(params[:id])
+    @merchant.destroy
     redirect_to '/merchants'
   end
 
@@ -47,4 +45,7 @@ class MerchantsController <ApplicationController
     params.permit(:name,:address,:city,:state,:zip)
   end
 
+  def set_merchant
+    @merchant = Merchant.find(params[:id])
+  end
 end

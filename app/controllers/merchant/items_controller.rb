@@ -1,6 +1,6 @@
 class Merchant::ItemsController < Merchant::BaseController
   before_action :set_item, only: [:edit, :update, :destroy]
-
+  
   def index
     @merchant = Merchant.find(current_user.merchant_id)
   end
