@@ -20,17 +20,13 @@
 <section class="change-address">
   <% if @order.pending_order? %>
     <h2>Change Address</h2>
-    <% @user.addresses.each do |address| %>
+    <% @unused_addresses.each do |address| %>
     <section id="address-<%=address.id%>-change">
       <p><%= link_to "#{address.nickname}", "/profile/orders/#{@order.id}/#{address.id}", method: :patch %></p>
     </section>
     <% end %>
   <% end %>
 </section>
-<!-- <p>< %= link_to "#{address.nickname}", "/profile/orders/#{@order.id}/address/#{address.id}", method: :patch %></p> -->
-
-<!-- < %= link_to "Change Address", "/profile/orders/#{@order.id}/edit", method: :get %> -->
-
 
   <section id="order-info-<%=@order.id%>">
     <h2> <%=link_to "Order ID: #{@order.id}", "/profile/orders/#{@order.id}" %> </h2>

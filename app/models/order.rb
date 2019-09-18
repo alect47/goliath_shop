@@ -1,7 +1,5 @@
 class Order <ApplicationRecord
 
-  # validates_presence_of :name
-
   validates_presence_of :status
   belongs_to :user
   belongs_to :address
@@ -12,6 +10,10 @@ class Order <ApplicationRecord
 
   def pending_order?
     status == "pending"
+  end
+
+  def unused_addresses(address)
+    user.addresses.where.not(id: address)
   end
 
   def grandtotal

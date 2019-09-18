@@ -12,7 +12,6 @@ class Address < ApplicationRecord
   validates_numericality_of :zip
 
   def no_shipped_orders?
-    # binding.pry
     orders.where(status: "shipped").empty?
   end
 end

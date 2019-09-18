@@ -16,5 +16,4 @@ class Admin::MerchantsController < Admin::BaseController
     end
     redirect_to "/merchants"
   end
-
 end
