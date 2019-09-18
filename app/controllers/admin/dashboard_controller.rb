@@ -9,5 +9,4 @@ class Admin::DashboardController < Admin::BaseController
     order.shipped
     redirect_to "/admin"
   end
-
 end
