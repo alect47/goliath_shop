@@ -42,9 +42,15 @@ class OrdersController <ApplicationController
   end
 
   def update
-    binding.pry
+    # binding.pry
     order = Order.find(params[:order_id])
-    order = user.orders.create!(address_id: order_params[:address_id])
+    # address_id = params[:address_id]
+    # binding.pry
+    order.update(address_id: (params[:address_id]))
+    redirect_to "/profile/orders/#{order.id}"
+    # binding.pry
+    # address
+    # order = user.orders.create!(address_id: order_params[:address_id])
   end
 
   def cancel
