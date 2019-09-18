@@ -10,6 +10,10 @@ class OrdersController <ApplicationController
     @user = current_user
   end
 
+  def edit
+    @order = Order.find(params[:order_id])
+  end
+
   def index
     @user = current_user
   end
@@ -37,6 +41,11 @@ class OrdersController <ApplicationController
     end
   end
 
+  def update
+    binding.pry
+    order = Order.find(params[:order_id])
+    order = user.orders.create!(address_id: order_params[:address_id])
+  end
 
   def cancel
     order = Order.find(params[:order_id])
