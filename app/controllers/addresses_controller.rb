@@ -1,5 +1,5 @@
 class AddressesController < ApplicationController
-  before_action :set_address, only: [:edit, :update, :delete]
+  before_action :set_address, only: [:edit, :update, :destroy]
 
   def new
     @address = Address.new
@@ -35,7 +35,7 @@ class AddressesController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
     if @address.no_shipped_orders?
       @address.destroy
       flash[:success] = "Address has been deleted"
