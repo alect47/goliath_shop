@@ -1,23 +1,19 @@
 class UsersController < ApplicationController
   before_action :require_user, only: [:show]
-  before_action :cur_user, only: [:edit, :password_edit, :update]
+  before_action :cur_user, only: [:edit, :password_edit, :update, :show]
+  before_action :set_address, only: [:edit, :update]
 
   def new
     @user = User.new
     1.times {@user.addresses.build}
-    # @address = @user.addresses.new
   end
 
   def create
     @user = User.create(parent_params)
-    # @address = Address.create(address_params)
     if @user.save
-      # @address = @user.addresses.create(address_params)
-      # if @address.save
         session[:user_id] = @user.id
         flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
         redirect_to "/profile"
-      # end
     else
       @address = Address.create(address_params)
       flash[:error] = (@user.errors.full_messages + @address.errors.full_messages).uniq.to_sentence
@@ -25,39 +21,17 @@ class UsersController < ApplicationController
     end
   end
 
-  # def create
-  #   @user = User.create(parent_params)
-  #   # @address = Address.create(address_params)
-  #   if @user.save
-  #     # @address = @user.addresses.create(address_params)
-  #     # if @address.save
-  #       session[:user_id] = @user.id
-  #       flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
-  #       redirect_to "/profile"
-  #     # end
-  #   else
-  #     # @address = Address.create(address_params)
-  #     # flash[:error] = (@user.errors.full_messages + @address.errors.full_messages).uniq.to_sentence
-  #     render :new
-  #   end
-  # end
-
-
   def show
-      @user = current_user
   end
 
   def edit
-    @address = @user.addresses.first
   end
 
   def password_edit
   end
 
   def update
-    # binding.pry
     @user.update(user_params)
-    @address = @user.addresses.first
     @address.update(address_params)
     if user_params.include?(:password)
       redirect_to '/profile'
@@ -91,5 +65,9 @@ class UsersController < ApplicationController
 
   def cur_user
     @user = current_user
+  end
+
+  def set_address
+    @address = @user.addresses.first
   end
 end

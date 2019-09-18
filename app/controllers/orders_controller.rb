@@ -1,23 +1,13 @@
 class OrdersController <ApplicationController
-
-  # def new
-  #   @user = current_user
-  # end
+  before_action :set_user, only: [:show, :create, :index, ]
 
   def show
-    # binding.pry
     @order = Order.find(params[:order_id])
-    @user = current_user
     address = @order.address.id
     @unused_addresses = @order.unused_addresses(address)
   end
 
-  # def edit
-  #   @order = Order.find(params[:order_id])
-  # end
-
   def index
-    @user = current_user
   end
 
   def create
@@ -25,8 +15,7 @@ class OrdersController <ApplicationController
       flash[:error] = "Please Select an Address"
       redirect_to '/cart'
     else
-      user = current_user
-      order = user.orders.create!(address_id: order_params[:address_id])
+      order = @user.orders.create!(address_id: order_params[:address_id])
       if order.save
         cart.items.each do |item,quantity|
           order.item_orders.create({
@@ -67,7 +56,10 @@ class OrdersController <ApplicationController
   private
 
   def order_params
-    # binding.pry
     params.require(:order).permit(:address_id)
+  end
+
+  def set_user
+    @user = current_user
   end
 end
