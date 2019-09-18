@@ -16,14 +16,6 @@ describe ItemOrder, type: :model do
 
   describe 'instance methods' do
     it 'subtotal' do
-      # @user = User.create!(  name: "alec",
-      #   address: "234 Main",
-      #   city: "Denver",
-      #   state: "CO",
-      #   zip: 80204,
-      #   email: "5@gmail.com",
-      #   password: "password"
-      # )
       @user = User.create!(  name: "alec",
         email: "5@gmail.com",
         password: "password"
@@ -39,14 +31,6 @@ describe ItemOrder, type: :model do
     end
 
     it 'fulfill_and_save_item_order' do
-      # @user = User.create!(  name: "alec",
-      #   address: "234 Main",
-      #   city: "Denver",
-      #   state: "CO",
-      #   zip: 80204,
-      #   email: "678@gmail.com",
-      #   password: "password"
-      # )
       @user = User.create!(  name: "alec",
         email: "5@gmail.com",
         password: "password"
