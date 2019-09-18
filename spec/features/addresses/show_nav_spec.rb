@@ -194,7 +194,7 @@ describe "User Profile Addresses" do
       within "#address-#{@user_address_2.id}-change" do
         click_link "#{@user_address_2.nickname}"
       end
-      
+
       expect(page).to have_content("Address changed to #{@user_address_2.nickname}")
 
       within ".shipping-address" do
@@ -203,6 +203,10 @@ describe "User Profile Addresses" do
         expect(page).to have_content(@user_address_2.state)
         expect(page).to have_content(@user_address_2.zip)
       end
+
+      @order_4.packaged
+      visit "/profile/orders/#{@order_4.id}"
+      expect(page).to_not have_content("Change Address")
     end
   end
 end
