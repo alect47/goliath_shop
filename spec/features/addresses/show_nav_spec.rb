@@ -186,5 +186,27 @@ describe "User Profile Addresses" do
       click_button 'Submit'
       expect(page).to have_content("Sorry you can't edit this address as it is currently being use in an order")
     end
+
+    it "user can change shipping address of pending order" do
+      @order_4 = @user.orders.create!(address_id: @user_address.id, status: 0)
+
+      visit "/profile/orders/#{@order_4.id}"
+      within "#address-#{@user_address_2.id}-change" do
+        click_link "#{@user_address_2.nickname}"
+      end
+
+      expect(page).to have_content("Address changed to #{@user_address_2.nickname}")
+
+      within ".shipping-address" do
+        expect(page).to have_content(@user_address_2.address)
+        expect(page).to have_content(@user_address_2.city)
+        expect(page).to have_content(@user_address_2.state)
+        expect(page).to have_content(@user_address_2.zip)
+      end
+
+      @order_4.packaged
+      visit "/profile/orders/#{@order_4.id}"
+      expect(page).to_not have_content("Change Address")
+    end
   end
 end

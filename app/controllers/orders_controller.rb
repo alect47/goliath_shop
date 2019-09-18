@@ -42,15 +42,12 @@ class OrdersController <ApplicationController
   end
 
   def update
-    # binding.pry
     order = Order.find(params[:order_id])
-    # address_id = params[:address_id]
-    # binding.pry
-    order.update(address_id: (params[:address_id]))
-    redirect_to "/profile/orders/#{order.id}"
-    # binding.pry
-    # address
-    # order = user.orders.create!(address_id: order_params[:address_id])
+    if order.pending_order?
+      order.update(address_id: (params[:address_id]))
+      flash[:success] = "Address changed to #{order.address.nickname}"
+      redirect_to "/profile/orders/#{order.id}"
+    end
   end
 
   def cancel
