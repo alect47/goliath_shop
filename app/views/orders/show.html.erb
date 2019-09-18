@@ -21,7 +21,9 @@
   <% if @order.pending_order? %>
     <h2>Change Address</h2>
     <% @user.addresses.each do |address| %>
+    <section id="address-<%=address.id%>-change">
       <p><%= link_to "#{address.nickname}", "/profile/orders/#{@order.id}/#{address.id}", method: :patch %></p>
+    </section>
     <% end %>
   <% end %>
 </section>

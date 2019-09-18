@@ -188,30 +188,21 @@ describe "User Profile Addresses" do
     end
 
     it "user can change shipping address of pending order" do
-      @order_4 = @user.orders.create!(address_id: @user_address.id, status: 2)
+      @order_4 = @user.orders.create!(address_id: @user_address.id, status: 0)
 
-      visit '/profile'
-      within "#address-#{@user_address.id}" do
-        click_link "Delete"
+      visit "/profile/orders/#{@order_4.id}"
+      within "#address-#{@user_address_2.id}-change" do
+        click_link "#{@user_address_2.nickname}"
       end
-      expect(page).to have_content("Sorry you can't delete this address as it is currently being use in an order")
+      
+      expect(page).to have_content("Address changed to #{@user_address_2.nickname}")
 
-      within "#address-#{@user_address.id}" do
-        click_link "Edit"
+      within ".shipping-address" do
+        expect(page).to have_content(@user_address_2.address)
+        expect(page).to have_content(@user_address_2.city)
+        expect(page).to have_content(@user_address_2.state)
+        expect(page).to have_content(@user_address_2.zip)
       end
-      nickname = 'Christopher'
-      address = '456 1st St'
-      city = 'Northglenn'
-      state = 'CO'
-      zip = 80233
-
-      fill_in "Nickname", with: nickname
-      fill_in "Address", with: address
-      fill_in "City", with: city
-      fill_in "State", with: state
-      fill_in "Zip", with: zip
-      click_button 'Submit'
-      expect(page).to have_content("Sorry you can't edit this address as it is currently being use in an order")
     end
   end
 end
