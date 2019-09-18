@@ -67,6 +67,10 @@
         <!-- < %= f.radio_button :user_id, address.user_id %> -->
         <section class="clicky">
           <%= f.label address.nickname %>
+          <section class="cart-address-inf0">
+            <p><%= address.address %><br>
+            <%= address.city %>, <%= address.state %> <%= address.zip %> </p>
+          </section>
         </section>
       <% end %>
       <%= f.submit %>

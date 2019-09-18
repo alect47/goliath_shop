@@ -36,11 +36,13 @@ Rails.application.routes.draw do
   post "/orders", to: "orders#create"
   get "/orders/:order_id", to: "orders#show"
   patch "/orders/:order_id", to: "orders#cancel"
-  get "/profile/orders/:order_id", to: "orders#show"
 
   get "/register", to: "users#new"
   post "/users", to: "users#create"
 
+  get "/profile/orders/:order_id", to: "orders#show"
+  # get "/profile/orders/:order_id/edit", to: "orders#edit"
+  patch "/profile/orders/:order_id/addresses/:address_id", to: "orders#update"
   get "/profile", to: "users#show"
   get "/profile/orders", to: "orders#index"
   get '/profile/edit', to: 'users#edit'
@@ -52,7 +54,7 @@ Rails.application.routes.draw do
   patch '/profile/addresses/:address_id', to: 'addresses#update', as: :update_address
   post '/profile/addresses', to: 'addresses#create', as: :create_address
   delete '/profile/addresses/:address_id', to: 'addresses#delete'
-  
+
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"

@@ -17,6 +17,16 @@
     </tr>
   </table>
 </section>
+<section class="change-address">
+  <h2>Change Address</h2>
+  <% @user.addresses.each do |address| %>
+    <p><%= link_to "#{address.nickname}", "/profile/orders/#{@order.id}/addresses/#{address.id}", method: :patch %></p>
+  <% end %>
+</section>
+<!-- <p>< %= link_to "#{address.nickname}", "/profile/orders/#{@order.id}/address/#{address.id}", method: :patch %></p> -->
+
+<!-- < %= link_to "Change Address", "/profile/orders/#{@order.id}/edit", method: :get %> -->
+
 
   <section id="order-info-<%=@order.id%>">
     <h2> <%=link_to "Order ID: #{@order.id}", "/profile/orders/#{@order.id}" %> </h2>
