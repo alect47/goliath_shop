@@ -3,9 +3,11 @@ Rails.application.routes.draw do
   root to: 'items#index'
 
   resources :merchants
+
   resources :items do
     resources :reviews, only: [:new, :create]
   end
+  
   get "/merchants/:merchant_id/items", to: "items#index"
   get "/merchants/:merchant_id/items/new", to: "items#new"
   post "/merchants/:merchant_id/items", to: "items#create"
